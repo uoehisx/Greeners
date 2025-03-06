@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(33, 109, 53, 1);
+    color: white;
+    font-weight: 100;
+    border-radius: 3%;
+    height: 300px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    padding: 20px;
+    justify-content: flex-start; /* 세로 방향으로 위에서부터 시작 */
+    align-items: center; /* 가로로 중앙 정렬 */
+}
+
+.container > .item{
+    scroll-snap-align: start;
+}
+
+.items {
+    display:flex;
+    flex-direction:row;
+    justify-content: space-around;
+}
+
+.swipeButton{
+    border-radius: 10%;
+    margin: 10px;
+    width:300px;
+    height: 200px;
+    background-color: white;
+    opacity: 0.5;
+}
+
+.main, .inProgress, .participate {
+    width: 100%;  
+    text-align: left; 
+    margin: 20px 0; 
+}
+
+.object {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;  
+    height: 20px; 
+    opacity:0.9;
+    background-color: white;
+    border-radius: 10%; 
+    margin-bottom: 30px;
+}
