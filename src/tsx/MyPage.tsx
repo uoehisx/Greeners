@@ -1,23 +1,53 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../assets/logo.png";
-import "../css/MyPage.styles.css"; // CSS 파일 import
+import "../css/MyPage.styles.css";
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [popup, setPopup] = useState("");
   const [name, setName] = useState("");
+  const [badges, setBadges] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [badgeType, setBadgeType] = useState("");
 
   useEffect(() => {
-    // localStorage에서 이름 가져오기
     const storedName = localStorage.getItem("userName");
     if (storedName) setName(storedName);
-  }, []);
+
+    fetchBadges();
+  }, [currentPage, badgeType]);
+
+  const fetchBadges = async () => {
+    const token = localStorage.getItem("accessToken");
+
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/badges`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page: currentPage, size: 10, badgeType },
+      });
+
+      setBadges(response.data.badges);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.error("배지 불러오기 실패:", error);
+    }
+  };
+
+  const handleBadgeTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setBadgeType(event.target.value);
+    setCurrentPage(1);
+  };
 
   const handleLogout = () => {
     setPopup("logout");
     setTimeout(() => {
       setPopup("");
+      localStorage.clear();
       navigate("/");
     }, 1500);
   };
@@ -30,7 +60,7 @@ const MyPage = () => {
     setPopup("withdraw");
     setTimeout(() => {
       setPopup("");
-      localStorage.clear(); // 모든 사용자 데이터 삭제
+      localStorage.clear();
       navigate("/");
     }, 1500);
   };
@@ -41,9 +71,51 @@ const MyPage = () => {
       <h2 className="title">안녕하세요!</h2>
       <h3 className="username">{name ? `${name}님` : "회원님"}</h3>
 
+      <div className="badge-filter">
+        <label htmlFor="badgeType">배지 유형:</label>
+        <select
+          id="badgeType"
+          value={badgeType}
+          onChange={handleBadgeTypeChange}
+        >
+          <option value="">전체</option>
+          <option value="1">텀블러 사용</option>
+          <option value="2">메일 삭제</option>
+          <option value="3">플라스틱 줄이기</option>
+        </select>
+      </div>
+
       <div className="badgeSection">
         <p>{name ? `${name}님이 획득한 배지` : "회원님이 획득한 배지"}</p>
-        <div className="badgeBox"></div>
+        <div className="badgeBox">
+          {badges.length > 0 ? (
+            badges.map((badge, index) => (
+              <div key={index} className="badge">
+                🏅 {badge.badgeType} - {badge.date}
+              </div>
+            ))
+          ) : (
+            <p>획득한 배지가 없습니다.</p>
+          )}
+        </div>
+      </div>
+
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          ◀ 이전
+        </button>
+        <span>
+          {currentPage} / {totalPages}
+        </span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          다음 ▶
+        </button>
       </div>
 
       <button className="logoutButton" onClick={handleLogout}>
@@ -64,13 +136,11 @@ const MyPage = () => {
           </button>
         </div>
       )}
-
       {popup === "withdraw" && (
         <div className="popup">
           <p>탈퇴처리가 완료되었습니다.</p>
         </div>
       )}
-
       {popup === "logout" && (
         <div className="popup">
           <p>로그아웃처리가 완료되었습니다.</p>
