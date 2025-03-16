@@ -1,0 +1,83 @@
+.challenge-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.challenge-title {
+  font-size: 25x;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.challenge-image {
+  width: 80%;
+  height: 180px;
+  background-color: #4c7744;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.challenge-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.challenge-info {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-circle {
+  width: 70px;
+  height: 70px;
+  background-color: #8ab78a;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-top: 40px;
+  margin-bottom: 5px;
+}
+
+.join-button {
+  width: 30%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #356639;
+  border: none;
+  border-radius: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.join-button:hover {
+  background-color: #2d5530;
+}
