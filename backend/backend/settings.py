@@ -62,6 +62,8 @@ MIDDLEWARE = [
 # CORS 설정 (React와 연결 허용)
 CORS_ALLOW_ALL_ORIGINS=True# 개발용 (모든 도메인 허용)
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000", 
+    "http://127.0.0.1:3000",
     "http://localhost:5173",  # React 프론트엔드 URL
 ]
 
