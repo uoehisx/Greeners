@@ -7,13 +7,13 @@ const UnderBar = () => {
 
   return (
     <div className="underbar-container">
+      <div className="underbar-item" onClick={() => navigate("/challengelist")}>
+        <FaList />
+        <span>챌린지</span>
+      </div>
       <div className="underbar-item" onClick={() => navigate("/home")}>
         <FaHome />
         <span>홈</span>
-      </div>
-      <div className="underbar-item" onClick={() => navigate("/regchallenge")}>
-        <FaList />
-        <span>챌린지</span>
       </div>
       <div className="underbar-item" onClick={() => navigate("/mypage")}>
         <FaUser />
