@@ -12,6 +12,7 @@ import Signup from "./tsx/Signup";
 import MyPage from "./tsx/MyPage";
 import CalendarComponent from "./tsx/CalendarComponent.tsx";
 import RegChallenge from "./tsx/regchallenge.tsx";
+import ChallengeList from "./tsx/ChallengeList";
 import UnderBar from "./components/UnderBar";
 import "./css/App.css";
 
@@ -46,7 +47,6 @@ const MainContent = () => {
     <>
       <div style={{ paddingBottom: hideUnderBar ? "0px" : "60px" }}>
         <Routes>
-          {/* 첫 화면: Start.tsx */}
           <Route path="/" element={<Start />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -78,6 +78,14 @@ const MainContent = () => {
             element={
               <RequireAuth>
                 <RegChallenge />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/challengelist"
+            element={
+              <RequireAuth>
+                <ChallengeList />
               </RequireAuth>
             }
           />
