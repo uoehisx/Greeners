@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import styles from "../styles/Signup.styles";
+import "../css/Signup.styles.css"; // CSS 파일 import
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -31,41 +31,41 @@ const Signup = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <img src={logo} alt="Greeners Logo" style={styles.logo} />
-      <h2 style={styles.title}>Greeners</h2>
-      <p style={styles.subtitle}>뜻깊은 기후행동에 함께 해주어 감사해요!</p>
+    <div className="signup-container">
+      <img src={logo} alt="Greeners Logo" className="logo" />
+      <h2 className="title">Greeners</h2>
+      <p className="subtitle">뜻깊은 기후행동에 함께 해주어 감사해요!</p>
 
       <input
         type="text"
         placeholder="이름"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={styles.input}
+        className="input"
       />
       <input
         type="text"
         placeholder="아이디"
         value={id}
         onChange={(e) => setId(e.target.value)}
-        style={styles.input}
+        className="input"
       />
       <input
         type="password"
         placeholder="비밀번호"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={styles.input}
+        className="input"
       />
       <input
         type="password"
         placeholder="비밀번호 확인"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        style={styles.input}
+        className="input"
       />
 
-      <button style={styles.button} onClick={handleSignup}>
+      <button className="button" onClick={handleSignup}>
         회원가입 완료
       </button>
     </div>
