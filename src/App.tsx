@@ -12,6 +12,9 @@ import Signup from "./tsx/Signup";
 import MyPage from "./tsx/MyPage";
 import CalendarComponent from "./tsx/CalendarComponent.tsx";
 import RegChallenge from "./tsx/regchallenge.tsx";
+import ChallengeList from "./tsx/ChallengeList";
+import ChallengeDetail from "./tsx/ChallengeDetail.tsx";
+import ChallengeJoin from "./tsx/ChallengeJoin.tsx";
 import UnderBar from "./components/UnderBar";
 import "./css/App.css";
 
@@ -23,21 +26,20 @@ const App = () => {
   );
 };
 
-// 로그인 여부 확인 후 보호된 페이지로 이동하는 컴포넌트
+// 로그인 여부 확인 후 이동
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem("userId"); // 로그인 상태 확인
+  const isAuthenticated = !!localStorage.getItem("userId");
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/login"); // 로그인 안 하면 로그인 페이지로 이동
+      navigate("/login");
     }
   }, [isAuthenticated, navigate]);
 
-  return isAuthenticated ? children : null; // 로그인 상태일 때만 컴포넌트 렌더링
+  return isAuthenticated ? children : null;
 };
 
-// 하단바를 특정 페이지에서만 렌더링하도록 설정
 const MainContent = () => {
   const location = useLocation();
   const hideUnderBar = ["/", "/login", "/signup"].includes(location.pathname);
@@ -46,7 +48,6 @@ const MainContent = () => {
     <>
       <div style={{ paddingBottom: hideUnderBar ? "0px" : "60px" }}>
         <Routes>
-          {/* 첫 화면: Start.tsx */}
           <Route path="/" element={<Start />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -78,6 +79,30 @@ const MainContent = () => {
             element={
               <RequireAuth>
                 <RegChallenge />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/challengelist"
+            element={
+              <RequireAuth>
+                <ChallengeList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/challengedetail"
+            element={
+              <RequireAuth>
+                <ChallengeDetail />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/challengejoin"
+            element={
+              <RequireAuth>
+                <ChallengeJoin />
               </RequireAuth>
             }
           />
