@@ -2,108 +2,83 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 80vh;
-  width: 100vw;
-  background-color: #fff;
-}
-
-.logo {
-  width: 120px;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #4caf50;
-  margin-bottom: 10px;
-}
-
-.username {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 20px;
+  padding: 20px;
 }
 
 .badgeSection {
+  width: 90%;
+  margin-top: 20px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .badgeBox {
-  width: 150px;
-  height: 150px;
-  background-color: #ddd;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  background: #f3f3f3;
+  padding: 10px;
   border-radius: 10px;
-  margin-top: 10px;
+}
+
+.badge {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
+}
+
+.badge-filter {
+  margin-bottom: 15px;
+}
+
+.badge-filter label {
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.badge-filter select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .logoutButton,
 .withdrawButton {
-  width: 250px;
+  width: 200px;
   padding: 12px;
-  font-size: 18px;
-  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #356639;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
   margin-top: 10px;
 }
 
-.logoutButton {
-  background-color: #ff9800;
-  color: #fff;
-}
-
-.logoutButton:hover {
-  background-color: #e68900;
-}
-
-.withdrawButton {
-  background-color: #f44336;
-  color: #fff;
-}
-
+.logoutButton:hover,
 .withdrawButton:hover {
-  background-color: #d32f2f;
-}
-
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.confirmButton,
-.cancelButton {
-  padding: 10px;
-  margin: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-.confirmButton {
-  background-color: #4caf50;
-  color: white;
-}
-
-.confirmButton:hover {
-  background-color: #45a049;
-}
-
-.cancelButton {
-  background-color: #ccc;
-  color: black;
-}
-
-.cancelButton:hover {
-  background-color: #b3b3b3;
+  background-color: #2d5530;
 }

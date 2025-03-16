@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../assets/logo.png";
-import "../css/Signup.styles.css"; // CSS 파일 import
+import "../css/Signup.styles.css";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!name || !id || !password) {
       alert("모든 정보를 입력해주세요.");
       return;
@@ -21,13 +22,21 @@ const Signup = () => {
       return;
     }
 
-    // 사용자 정보 저장 (localStorage 사용)
-    localStorage.setItem("userName", name);
-    localStorage.setItem("userId", id);
-    localStorage.setItem("userPassword", password);
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/register", {
+        username: id,
+        email: `${id}@example.com`, // 이메일이 필수라면 임시 이메일 사용
+        password: password,
+      });
 
-    alert("회원가입이 완료되었습니다!");
-    navigate("/login"); // 회원가입 후 로그인 페이지로 이동
+      if (response.status === 201) {
+        alert("회원가입이 완료되었습니다!");
+        navigate("/login"); // 회원가입 후 로그인 페이지로 이동
+      }
+    } catch (error) {
+      alert("회원가입 실패: 이미 존재하는 아이디거나 서버 오류입니다.");
+      console.error("Signup Error:", error);
+    }
   };
 
   return (
@@ -66,7 +75,7 @@ const Signup = () => {
       />
 
       <button className="button" onClick={handleSignup}>
-        회원가입 완료
+        회원가입
       </button>
     </div>
   );
