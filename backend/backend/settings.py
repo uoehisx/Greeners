@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django.contrib.sites',
     'corsheaders',
+    'django_filters',
     'api',
     'common',
+    'badge',
 ]
 
 MIDDLEWARE = [
