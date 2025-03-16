@@ -1,43 +1,62 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email']
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    id = serializers.CharField(max_length=50)  # 문자열 ID
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['id', 'username', 'password']  # 사용자가 직접 ID를 입력
+
+    extra_kwargs = {
+        'password': {'write_only': True}
+    }
 
     def create(self, validated_data):
         user = User.objects.create_user(
+            id=validated_data['id'],  # 사용자가 입력한 ID 저장
             username=validated_data['username'],
-            email=validated_data['email'],
             password=validated_data['password']
         )
         return user
 
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+    id = serializers.CharField()  # 문자열 ID로 로그인
     password = serializers.CharField(write_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
+    username = serializers.CharField(read_only=True)
 
     def validate(self, data):
-        from django.contrib.auth import authenticate
+        id = data.get("id")
+        password = data.get("password")
 
-        user = authenticate(username=data['username'], password=data['password'])
-        if user is None:
-            raise serializers.ValidationError("아이디 또는 비밀번호가 올바르지 않습니다.")
+        try:
+            user = User.objects.get(id=id)  # ID로 사용자 찾기
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"error": "존재하지 않는 사용자입니다."})
+
+        if not user.check_password(password):
+            raise serializers.ValidationError({"error": "비밀번호가 올바르지 않습니다."})
 
         refresh = RefreshToken.for_user(user)
+
         return {
-            "refresh": str(refresh),
+            "id": user.id,
+            "username": user.username,
             "access": str(refresh.access_token),
-            "user": UserSerializer(user).data,
+            "refresh": str(refresh),
         }
+
