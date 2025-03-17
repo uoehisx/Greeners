@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import recycleImage from "../assets/recycle.png";
-
 import "../css/ChallengeDetail.styles.css";
 
-//목업 데이터
 interface Challenge {
   id: string;
   title: string;
@@ -13,36 +11,46 @@ interface Challenge {
   participants: number;
   maxParticipants: number;
 }
+
 const ChallengeDetail = () => {
   const navigate = useNavigate();
+  const { challengeId } = useParams<{ challengeId: string }>(); // URL에서 challengeId 가져오기
   const [challenge, setChallenge] = useState<Challenge | null>(null);
 
   useEffect(() => {
-    const mockChallengeData: Challenge = {
-      id: "1",
-      title: "분리수거 같이 해요~",
-      imageUrl: recycleImage,
-      timeLeft: "15분",
-      participants: 7,
-      maxParticipants: 10,
+    const mockChallengeData: Record<string, Challenge> = {
+      "1": {
+        id: "1",
+        title: "분리수거 같이 해요~",
+        imageUrl: recycleImage,
+        timeLeft: "15분",
+        participants: 7,
+        maxParticipants: 10,
+      },
+      "2": {
+        id: "2",
+        title: "텀블러 사용하기",
+        imageUrl: recycleImage,
+        timeLeft: "30분",
+        participants: 5,
+        maxParticipants: 10,
+      },
     };
 
-    setChallenge(mockChallengeData);
-  }, []);
+    if (challengeId && mockChallengeData[challengeId]) {
+      setChallenge(mockChallengeData[challengeId]);
+    }
+  }, [challengeId]);
 
   if (!challenge) {
-    return <p>로딩중</p>;
+    return <p>로딩중...</p>;
   }
 
   return (
     <div className="challenge-detail-container">
       <h2 className="challenge-title">{challenge.title}</h2>
       <div className="challenge-image">
-        {challenge.imageUrl ? (
-          <img src={challenge.imageUrl} alt={challenge.title} />
-        ) : (
-          <div className="image-placeholder"></div>
-        )}
+        <img src={challenge.imageUrl} alt={challenge.title} />
       </div>
 
       <div className="challenge-info">
@@ -52,13 +60,13 @@ const ChallengeDetail = () => {
         </div>
         <div className="info-item">
           <div className="info-circle">{challenge.participants}명</div>
-          <p>남은 인원</p>
+          <p>참여 인원</p>
         </div>
       </div>
 
       <button
         className="join-button"
-        onClick={() => navigate("/challengejoin")}
+        onClick={() => navigate(`/challengejoin/${challenge.id}`)}
       >
         참여하기
       </button>
