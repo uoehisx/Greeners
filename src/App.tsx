@@ -26,7 +26,6 @@ const App = () => {
   );
 };
 
-// 로그인 여부 확인 후 이동
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
   const isAuthenticated = !!localStorage.getItem("userId");
@@ -91,7 +90,7 @@ const MainContent = () => {
             }
           />
           <Route
-            path="/challengedetail"
+            path="/challengedetail/:challengeId"
             element={
               <RequireAuth>
                 <ChallengeDetail />
@@ -99,7 +98,7 @@ const MainContent = () => {
             }
           />
           <Route
-            path="/challengejoin"
+            path="/challengejoin/:challengeId"
             element={
               <RequireAuth>
                 <ChallengeJoin />

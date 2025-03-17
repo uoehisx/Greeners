@@ -1,43 +1,45 @@
 import { useEffect, useRef } from "react";
 
-const GoogleMap = () => {
+interface Challenge {
+  id: number;
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  };
+}
+
+interface GoogleMapProps {
+  challenges: Challenge[];
+}
+
+const GoogleMap: React.FC<GoogleMapProps> = ({ challenges }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!mapRef.current) return;
 
-    if (!window.google) {
-      console.error("Google Maps API가 로드되지 않았습니다.");
-      return;
-    }
-
-    const center: google.maps.LatLngLiteral = { lat: 37.5665, lng: 126.978 };
+    const center = { lat: 37.5665, lng: 126.978 }; // 서울 기본 좌표
 
     const map = new google.maps.Map(mapRef.current, {
       center,
-      zoom: 15,
+      zoom: 12,
     });
 
-    const challengeLocations: google.maps.LatLngLiteral[] = [
-      { lat: 37.5705, lng: 126.9769 },
-      { lat: 37.5641, lng: 126.9824 },
-      { lat: 37.5683, lng: 126.9905 },
-    ];
-
-    challengeLocations.forEach((location) => {
+    challenges.forEach((challenge) => {
       new google.maps.Marker({
-        position: location,
+        position: {
+          lat: challenge.location.latitude,
+          lng: challenge.location.longitude,
+        },
         map,
+        title: challenge.name,
       });
     });
-  }, []);
+  }, [challenges]);
 
-  return (
-    <div
-      ref={mapRef}
-      style={{ width: "90%", height: "200px", borderRadius: "10px" }}
-    />
-  );
+  return <div ref={mapRef} className="map-container" />;
 };
 
 export default GoogleMap;

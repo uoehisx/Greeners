@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "../css/ChallengeJoin.styles.css";
 
 const ChallengeJoin = () => {
+  const { challengeId } = useParams<{ challengeId: string }>(); // URL에서 challengeId 가져오기
+  const navigate = useNavigate();
   const [image, setImage] = useState<string | null>(null);
   const [comment, setComment] = useState<string>("");
 
@@ -21,6 +24,8 @@ const ChallengeJoin = () => {
     alert("챌린지 참여가 완료되었습니다!");
     console.log("업로드된 이미지:", image);
     console.log("입력된 코멘트:", comment);
+
+    navigate(`/challengedetail/${challengeId}`); // 참여 완료 후 해당 챌린지 상세로 이동
   };
 
   return (
