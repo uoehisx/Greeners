@@ -3,9 +3,9 @@ import "../css/regchallenge.css";
 const regchallenge=()=>{
     return(
         <div>
-            <div className="title">
-                <p className="name">챌린지 등록하기</p>
-            </div>
+   
+            <p className="name">챌린지 등록하기</p>
+
             <div className="image">
                 <input type="image">사진 업로드</input>
             </div>
