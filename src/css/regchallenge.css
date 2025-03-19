@@ -1,8 +1,86 @@
-.name{
-    color:black;
-}
-.image{
-    border-radius: 30%;
-    background-color: grey;
-    border-color:grey;
-}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8f8f8;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .image-container {
+    width: 80%;
+    height: 150px;
+    background-color: #4c8c5a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .image-upload {
+    text-align: center;
+  }
+  
+  .challenge-info {
+    width: 80%;
+    margin-top: 20px;
+  }
+  
+  .time-section, .people-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .bold-text {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .input-box {
+    flex-grow: 1;
+    padding: 8px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .title-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .register-button {
+    width: 80%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #4c8c5a;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .register-button:hover {
+    background-color: #3a6f45;
+  }
+  

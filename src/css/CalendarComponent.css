@@ -7,7 +7,6 @@
 }
 
 body{
-    display: flex;
     font-family:'머니그라피';
 }
 
@@ -24,8 +23,6 @@ body{
 
 /* 일정표 툴 바  */
 .fc .fc-toolbar.fc-header-toolbar {
-    
-    margin: 20px;
     font-size:20px;
     line-height: 30px;
     color:rgba(33, 109, 53, 1);
@@ -35,7 +32,6 @@ body{
 
 /* 툴바의 버튼 */
 .fc .fc-toolbar-chunk .fc-button{
-    
     border:rgba(33, 109, 53, 1);
     background-color: rgba(33, 109, 53, 1);
     font-size: 14px;
