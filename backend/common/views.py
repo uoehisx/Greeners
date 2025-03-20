@@ -13,8 +13,12 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "회원가입 성공"}, status=status.HTTP_201_CREATED)
+            user = serializer.save()
+            return Response({
+                "id": user.id,  # 사용자가 입력한 ID 반환
+                "username": user.username,
+                "message": "회원가입 성공"
+            }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
@@ -31,9 +35,14 @@ class LogoutView(APIView):
 
     def post(self, request):
         try:
-            refresh_token = request.data["refresh"]
+            refresh_token = request.data.get("refresh")
+            if not refresh_token:
+                return Response({"error": "refresh 토큰이 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
             token = RefreshToken(refresh_token)
             token.blacklist()
+
             return Response({"message": "로그아웃 성공"}, status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
+        except Exception:
             return Response({"error": "유효하지 않은 토큰입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
