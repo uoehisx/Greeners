@@ -5,13 +5,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
-from rest_framework import serializers
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
 class RegisterSerializer(serializers.ModelSerializer):
     id = serializers.CharField(max_length=50)  # 문자열 ID
+    username = serializers.CharField(max_length=50)
+    password = serializers.CharField(max_length=50)
 
     class Meta:
         model = User
@@ -28,9 +25,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginSerializer(serializers.Serializer):
     id = serializers.CharField()  # 문자열 ID로 로그인
