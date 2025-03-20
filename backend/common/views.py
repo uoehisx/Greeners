@@ -11,24 +11,33 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        print("회원가입 요청 데이터:", request.data)  # 요청 데이터 출력
+
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             return Response({
-                "id": user.id,  # 사용자가 입력한 ID 반환
+                "id": user.id,
                 "username": user.username,
                 "message": "회원가입 성공"
             }, status=status.HTTP_201_CREATED)
+
+        print("회원가입 실패 (유효성 검사 오류):", serializer.errors)  # 오류 로그 추가
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        print("로그인 요청 데이터:", request.data)  # 요청 데이터 출력
+
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+        print("로그인 실패 (유효성 검사 오류):", serializer.errors)  # 오류 로그 추가
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
