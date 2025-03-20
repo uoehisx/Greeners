@@ -37,7 +37,6 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
     access = serializers.CharField(read_only=True)
     refresh = serializers.CharField(read_only=True)
-    username = serializers.CharField(read_only=True)
 
     def validate(self, data):
         id = data.get("id")
@@ -55,7 +54,6 @@ class LoginSerializer(serializers.Serializer):
 
         return {
             "id": user.id,
-            "username": user.username,
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         }
