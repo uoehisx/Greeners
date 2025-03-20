@@ -11,10 +11,18 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
-        username: id,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/login/",
+        {
+          id: id,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json", // 헤더 설정 추가
+          },
+        }
+      );
 
       // 응답 데이터 확인
       if (response.status === 200) {
@@ -27,7 +35,7 @@ const Login = () => {
         localStorage.setItem("userName", user.username);
 
         alert("로그인 성공!");
-        navigate("/home"); // 로그인 성공 후 홈으로 이동
+        navigate("/home");
       }
     } catch (error) {
       alert("아이디 또는 비밀번호를 확인하세요.");
