@@ -23,7 +23,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/register", {
+      const response = await axios.post("http://127.0.0.1:8000/api/register/", {
         id: id,
         username: name, // 이메일이 필수라면 임시 이메일 사용
         password: password,

@@ -24,7 +24,7 @@ const MyPage = () => {
     const token = localStorage.getItem("accessToken");
 
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/badges`, {
+      const response = await axios.get(`http://127.0.0.1:8000/badges/`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { page: currentPage, size: 10, badgeType },
       });
