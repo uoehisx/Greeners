@@ -1,8 +1,9 @@
+import React from 'react';
 import "../css/mainSwipe.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const MainSwipe = () => {
+const challengeSwipe = () => {
   const navigate = useNavigate();
   const [position, setPosition] = useState(0); // 0이면 닫힌 상태, -250이면 열린 상태
   const [startY, setStartY] = useState(0);
@@ -53,4 +54,4 @@ const MainSwipe = () => {
   );
 };
 
-export default MainSwipe;
+export default challengeSwipe;
