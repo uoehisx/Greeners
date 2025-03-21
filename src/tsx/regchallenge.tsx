@@ -88,8 +88,8 @@ const RegChallenge = () => {
         </div>
 
         <button className="register-button" type="submit">등록하기</button>
-      </form>
-      {popupMessage && (
+      </form> 
+      {popupMessage && ( 
         <Popup
           message={popupMessage}
           onClose={() => setPopupMessage(null)}

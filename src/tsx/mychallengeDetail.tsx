@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import ChallengeSwipe from "./challeneSwipe.tsx";
+import Popup from "./Popup.tsx";
 import recycleImage from "../assets/recycle.png";
+import badgeImage from "../assets/badge.png"; // 획득한 뱃지 이미지 추가
 import "../css/ChallengeDetail.styles.css";
 
 interface Challenge {
   id: string;
   title: string;
   imageUrl: string;
-  timeLeft: string;
+  start_time: string;
+  end_time: string;
   participants: number;
   maxParticipants: number;
 }
 
-const ChallengeDetail = () => {
-  const navigate = useNavigate();
-  const { challengeId } = useParams<{ challengeId: string }>(); // URL에서 challengeId 가져오기
+const MyChallengeDetail = () => {
+  const { challengeId } = useParams<{ challengeId: string }>(); 
   const [challenge, setChallenge] = useState<Challenge | null>(null);
+  const [popupInfo, setPopupInfo] = useState<{ message: string; badgeImage?: string } | null>(null);
 
   useEffect(() => {
     const mockChallengeData: Record<string, Challenge> = {
@@ -25,15 +27,17 @@ const ChallengeDetail = () => {
         id: "1",
         title: "분리수거 같이 해요~",
         imageUrl: recycleImage,
-        timeLeft: "15분",
-        participants: 7,
+        start_time: "2025-01-28T10:00:00Z",
+        end_time: "2025-02-15T18:00:00Z",
+        participants: 10,
         maxParticipants: 10,
       },
       "2": {
         id: "2",
         title: "텀블러 사용하기",
         imageUrl: recycleImage,
-        timeLeft: "30분",
+        start_time: "2025-02-10T09:00:00Z",
+        end_time: "2025-03-01T23:59:59Z",
         participants: 5,
         maxParticipants: 10,
       },
@@ -44,30 +48,29 @@ const ChallengeDetail = () => {
     }
   }, [challengeId]);
 
-  if (!challenge) {
-    return <p>로딩중...</p>
-  };
+  useEffect(() => {
+    if (challenge) {
+      const currentTime = new Date().toISOString();
+      if (currentTime > challenge.end_time) {
+        if (challenge.participants === challenge.maxParticipants) {
+          setPopupInfo({ message: "챌린지 성공! 뱃지를 획득했습니다!", badgeImage });
+        } else {
+          setPopupInfo({ message: " 챌린지 실패! 다음 챌린지를 등록해보세요." });
+        }
+      }
+    }
+  }, [challenge]);
+
+  if (!challenge) return <p>로딩중...</p>;
 
   return (
     <div className="challenge-detail-container">
-      <h2 className="challenge-title">{challenge.title}</h2>
-      <div className="challenge-image">
-        <img src={challenge.imageUrl} alt={challenge.title} />
-      </div>
-
-      <div className="challenge-info">
-        <div className="info-item">
-          <div className="info-circle">{challenge.timeLeft}</div>
-          <p>남은 시간</p>
-        </div>
-        <div className="info-item">
-          <div className="info-circle">{challenge.participants}명</div>
-          <p>참여 인원</p>
-        </div>
-      </div>
-      <ChallengeSwipe/>
+      <h2>{challenge.title}</h2>
+      <img src={challenge.imageUrl} alt={challenge.title} />
+      <ChallengeSwipe />
+      {popupInfo && <Popup message={popupInfo.message} badgeImage={popupInfo.badgeImage} onClose={() => setPopupInfo(null)} />}
     </div>
   );
 };
 
-export default ChallengeDetail;
+export default MyChallengeDetail;

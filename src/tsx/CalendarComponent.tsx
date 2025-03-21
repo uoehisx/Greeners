@@ -7,8 +7,8 @@ import MainSwipe from "./mainSwipe";
 import Popup from "./Popup.tsx";
 
 const earnedBadges: Record<string, string[]> = {
-  "2025-02-15": ["/assets/badge1.png"],
-  "2025-03-01": ["/assets/badge2.png"],
+  "2025-02-15": ["logo.png"],
+  "2025-03-01": ["logo.png"],
 };
 
 const CalendarComponent = () => {
@@ -19,11 +19,11 @@ const CalendarComponent = () => {
       <div className="calendar-container">
         <FullCalendar
           plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
+          initialView="dayGridMonth" //fullCalendar 형식 설정 
           height="auto"
-          selectable={true}  // 날짜 선택 가능하게 설정
+          selectable={true}  //날짜선택이 가능하도록
           select={(info) => {
-            console.log("날짜 선택됨:", info.startStr);
+            console.log("날짜 선택됨:", info.startStr); //콘솔에 찍어보기 
             if (earnedBadges.hasOwnProperty(info.startStr)) {
               setSelectedDate(info.startStr);
             } else {
@@ -31,7 +31,7 @@ const CalendarComponent = () => {
             }
           }}
           events={Object.keys(earnedBadges).map((date) => ({
-            title: "🎖",
+            title: "획득한 뱃지",
             start: date,
             className: "badge-date",
           }))}
@@ -41,7 +41,7 @@ const CalendarComponent = () => {
 
       {selectedDate && earnedBadges[selectedDate]?.length > 0 && (
         <Popup
-          message="🎖 획득한 뱃지!"
+          message="획득한 뱃지"
           badgeImage={earnedBadges[selectedDate][0]}
           onClose={() => setSelectedDate(null)}
         />
