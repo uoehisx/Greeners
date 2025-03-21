@@ -64,8 +64,7 @@
   cursor: not-allowed;
 }
 
-.logoutButton,
-.withdrawButton {
+.logoutButton {
   width: 200px;
   padding: 12px;
   font-size: 16px;
@@ -78,7 +77,24 @@
   margin-top: 10px;
 }
 
-.logoutButton:hover,
-.withdrawButton:hover {
+.withdrawButton {
+  width: 200px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #000000;
+  transparent: 80%;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.logoutButton:hover {
   background-color: #2d5530;
+}
+
+.withdrawButton:hover {
+  background-color: #333333;
 }

@@ -86,18 +86,8 @@ const MyPage = () => {
       </div>
 
       <div className="badgeSection">
-        <p>{name ? `${name}님이 획득한 배지` : "회원님이 획득한 배지"}</p>
-        <div className="badgeBox">
-          {badges.length > 0 ? (
-            badges.map((badge, index) => (
-              <div key={index} className="badge">
-                🏅 {badge.badgeType} - {badge.date}
-              </div>
-            ))
-          ) : (
-            <p>획득한 배지가 없습니다.</p>
-          )}
-        </div>
+        <p>{name ? `${name}님이 참여한 챌린지` : "회원님이 참여한 챌린지"}</p>
+        <div className="badgeBox"></div>
       </div>
 
       <div className="pagination">
