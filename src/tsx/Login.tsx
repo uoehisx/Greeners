@@ -10,6 +10,13 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+    console.log("로그인 요청 데이터:", { id, password }); // 로그인 데이터 확인
+
+    if (!id || !password) {
+      alert("아이디와 비밀번호를 입력하세요.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/login/",
@@ -23,6 +30,8 @@ const Login = () => {
           },
         }
       );
+
+      console.log("로그인 응답 데이터:", response.data); // 응답 데이터 확인
 
       if (response.status === 200) {
         const { access, refresh, user } = response.data;

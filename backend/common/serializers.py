@@ -29,6 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     id = serializers.CharField()  # 문자열 ID로 로그인
     password = serializers.CharField(write_only=True)
+    username = serializers.CharField(read_only=True)
     access_token = serializers.CharField(read_only=True)
     refresh_token = serializers.CharField(read_only=True)
 
@@ -48,6 +49,7 @@ class LoginSerializer(serializers.Serializer):
 
         return {
             "id": user.id,
+            "username": user.first_name,
             "access_token": str(refresh.access_token),
             "refresh_token": str(refresh),
         }
