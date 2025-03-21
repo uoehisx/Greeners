@@ -22,5 +22,4 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('badge/', include('badge.urls')),
     path('challenge/', include('challenge.urls')),
-    
 ]
