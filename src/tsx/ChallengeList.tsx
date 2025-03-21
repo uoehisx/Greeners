@@ -12,12 +12,13 @@ interface Challenge {
     longitude: number;
     address: string;
   };
-  status: string;
+  status: 'CL' | 'PR';  // 'CL' 또는 'PR'만 허용
   start_time: string;
-  end_time: string;
+  end_time: string | null;  // null을 허용
   current_participants: number;
   max_participants: number;
 }
+
 
 const ChallengeList = () => {
   const navigate = useNavigate();
