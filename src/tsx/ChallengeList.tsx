@@ -41,13 +41,13 @@ const ChallengeList = () => {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
-          } /*
+          },
           params: {
             type: type || undefined,
             location: location || undefined,
             radius: radius || undefined,
             max_participants: maxParticipants || undefined,
-          },*/,
+          },
         }
       );
 
