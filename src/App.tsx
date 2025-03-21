@@ -61,6 +61,7 @@ const MainContent = () => {
                     안녕하세요! {localStorage.getItem("userName") || "회원"}님!
                   </h1>
                   <CalendarComponent />
+                  {hideUnderBar}
                 </div>
               </RequireAuth>
             }
