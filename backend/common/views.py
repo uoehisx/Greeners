@@ -33,6 +33,7 @@ class LoginView(APIView):
 
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
+            print("로그인 성공 응답 데이터:", serializer.validated_data)
             return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
         print("로그인 실패 (유효성 검사 오류):", serializer.errors)  # 오류 로그 추가

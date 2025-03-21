@@ -29,8 +29,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     id = serializers.CharField()  # 문자열 ID로 로그인
     password = serializers.CharField(write_only=True)
-    access = serializers.CharField(read_only=True)
-    refresh = serializers.CharField(read_only=True)
+    access_token = serializers.CharField(read_only=True)
+    refresh_token = serializers.CharField(read_only=True)
 
     def validate(self, data):
         id = data.get("id")
@@ -48,7 +48,7 @@ class LoginSerializer(serializers.Serializer):
 
         return {
             "id": user.id,
-            "access": str(refresh.access_token),
-            "refresh": str(refresh),
+            "access_token": str(refresh.access_token),
+            "refresh_token": str(refresh),
         }
 
