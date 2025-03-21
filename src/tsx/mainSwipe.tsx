@@ -8,10 +8,10 @@ const MainSwipe = () => {
   const [startY, setStartY] = useState(0);
 
   const handleButtonClick = () => {
-    navigate("/reg-challenge");
+    navigate("/regchallenge");
   };
 
-  const handleButtonClick_=()=>{
+  const handleButtonClick_ = () => {
     navigate("/challengedetail/:challengeId");
   };
 
@@ -36,7 +36,9 @@ const MainSwipe = () => {
       onTouchMove={handleTouchMove}
     >
       <div className="object"></div>
-      <h1 className="main">오늘 {localStorage.getItem("userName") || "회원"}님의 활동</h1>
+      <h1 className="main">
+        오늘 {localStorage.getItem("userName") || "회원"}님의 활동
+      </h1>
       <h2 className="inProgress">진행 중인 챌린지</h2>
       <div className="items">
         <button className="swipeButton"></button>

@@ -17,9 +17,12 @@ interface Challenge {
 }
 
 const MyChallengeDetail = () => {
-  const { challengeId } = useParams<{ challengeId: string }>(); 
+  const { challengeId } = useParams<{ challengeId: string }>();
   const [challenge, setChallenge] = useState<Challenge | null>(null);
-  const [popupInfo, setPopupInfo] = useState<{ message: string; badgeImage?: string } | null>(null);
+  const [popupInfo, setPopupInfo] = useState<{
+    message: string;
+    badgeImage?: string;
+  } | null>(null);
 
   useEffect(() => {
     const mockChallengeData: Record<string, Challenge> = {
@@ -53,9 +56,14 @@ const MyChallengeDetail = () => {
       const currentTime = new Date().toISOString();
       if (currentTime > challenge.end_time) {
         if (challenge.participants === challenge.maxParticipants) {
-          setPopupInfo({ message: "챌린지 성공! 뱃지를 획득했습니다!", badgeImage });
+          setPopupInfo({
+            message: "챌린지 성공! 뱃지를 획득했습니다!",
+            badgeImage,
+          });
         } else {
-          setPopupInfo({ message: " 챌린지 실패! 다음 챌린지를 등록해보세요." });
+          setPopupInfo({
+            message: " 챌린지 실패! 다음 챌린지를 등록해보세요.",
+          });
         }
       }
     }
@@ -68,7 +76,13 @@ const MyChallengeDetail = () => {
       <h2>{challenge.title}</h2>
       <img src={challenge.imageUrl} alt={challenge.title} />
       <ChallengeSwipe />
-      {popupInfo && <Popup message={popupInfo.message} badgeImage={popupInfo.badgeImage} onClose={() => setPopupInfo(null)} />}
+      {popupInfo && (
+        <Popup
+          message={popupInfo.message}
+          badgeImage={popupInfo.badgeImage}
+          onClose={() => setPopupInfo(null)}
+        />
+      )}
     </div>
   );
 };

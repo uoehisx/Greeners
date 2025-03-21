@@ -12,7 +12,9 @@ const Popup: React.FC<PopupProps> = ({ message, badgeImage, onClose }) => {
     <div className="popup-overlay">
       <div className="popup-content">
         <p>{message}</p>
-        {badgeImage && <img src={badgeImage} alt="획득한 뱃지" className="badge-image" />}
+        {badgeImage && (
+          <img src={badgeImage} alt="획득한 뱃지" className="badge-image" />
+        )}
         <button onClick={onClose}>X</button>
       </div>
     </div>

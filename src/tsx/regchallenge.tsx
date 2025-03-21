@@ -3,16 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Popup from "./Popup.tsx";
 import "../css/regchallenge.css";
 
-const RegChallenge = () => { 
-    const navigate = useNavigate();
-    const [challengeData, setChallengeData] = useState({
-      title: "",
-      start_time: "",
-      end_time: "",
-      max_participants: 10,
-    });
+const RegChallenge = () => {
+  const navigate = useNavigate();
+  const [challengeData, setChallengeData] = useState({
+    title: "",
+    start_time: "",
+    end_time: "",
+    max_participants: 10,
+  });
   const [popupMessage, setPopupMessage] = useState<string | null>(null); // 팝업 메시지 상태
-  const [isSuccess, setIsSuccess] = useState<boolean>(false); 
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setChallengeData({
@@ -24,11 +24,15 @@ const RegChallenge = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {/*백엔드 요청식 적어주세요*/      const response = await fetch("https://api.example.com/challenges ", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(challengeData),
-      });
+    try {
+      /*백엔드 요청식 적어주세요*/ const response = await fetch(
+        "https://api.example.com/challenges ",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(challengeData),
+        }
+      );
 
       if (response.ok) {
         setPopupMessage("챌린지가 등록되었습니다!");
@@ -42,7 +46,7 @@ const RegChallenge = () => {
     }
   };
   return (
-    <div className="container">
+    <div className="reg-container">
       <p className="title">챌린지 등록하기</p>
 
       <div className="image-container">
@@ -87,13 +91,12 @@ const RegChallenge = () => {
           />
         </div>
 
-        <button className="register-button" type="submit">등록하기</button>
-      </form> 
-      {popupMessage && ( 
-        <Popup
-          message={popupMessage}
-          onClose={() => setPopupMessage(null)}
-        />
+        <button className="register-button" type="submit">
+          등록하기
+        </button>
+      </form>
+      {popupMessage && (
+        <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />
       )}
     </div>
   );
