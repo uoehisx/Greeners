@@ -12,13 +12,12 @@ interface Challenge {
     longitude: number;
     address: string;
   };
-  status: 'CL' | 'PR';  // 'CL' 또는 'PR'만 허용
+  status: "CL" | "PR"; // 'CL' 또는 'PR'만 허용
   start_time: string;
-  end_time: string | null;  // null을 허용
+  end_time: string | null; // null을 허용
   current_participants: number;
   max_participants: number;
 }
-
 
 const ChallengeList = () => {
   const navigate = useNavigate();
@@ -26,15 +25,27 @@ const ChallengeList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // 필터 상태 관리
   const [type, setType] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [radius, setRadius] = useState<number | null>(null);
   const [maxParticipants, setMaxParticipants] = useState<number | null>(null);
 
-  const fetchChallenges = async () => {
+  // 챌린지 목록을 가져오는 함수
+  const fetchChallenges = async (applyFilter = false) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("accessToken");
+
+      const params = applyFilter
+        ? {
+            type: type || undefined,
+            location: location || undefined,
+            radius: radius || undefined,
+            max_participants: maxParticipants || undefined,
+          }
+        : {};
+
       const response = await axios.get(
         "http://127.0.0.1:8000/challenge/status/",
         {
@@ -42,12 +53,7 @@ const ChallengeList = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          params: {
-            type: type || undefined,
-            location: location || undefined,
-            radius: radius || undefined,
-            max_participants: maxParticipants || undefined,
-          },
+          params,
         }
       );
 
@@ -65,14 +71,16 @@ const ChallengeList = () => {
     }
   };
 
+  // 페이지 첫 로딩 시 모든 챌린지 불러오기
   useEffect(() => {
     fetchChallenges();
-  }, [type, location, radius, maxParticipants]);
+  }, []);
 
   return (
     <div className="challengelist-container">
       <h2 className="challengelist-title">현재 진행 중인 챌린지</h2>
 
+      {/* 필터링 UI */}
       <div className="filter-container">
         <input
           type="text"
@@ -98,9 +106,10 @@ const ChallengeList = () => {
           value={maxParticipants || ""}
           onChange={(e) => setMaxParticipants(Number(e.target.value))}
         />
-        <button onClick={fetchChallenges}>검색</button>
+        <button onClick={() => fetchChallenges(true)}>검색</button>
       </div>
 
+      {/* 지도 */}
       <GoogleMap challenges={challenges} />
 
       {loading ? (
