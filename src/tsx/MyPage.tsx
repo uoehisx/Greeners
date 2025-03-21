@@ -1,47 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/logo.png";
 import "../css/MyPage.styles.css";
 
+interface Challenge {
+  id: number;
+  name: string;
+  status: string;
+}
+
+const mockChallenges: Challenge[] = [
+  { id: 1, name: "분리수거", status: "성공" },
+  { id: 2, name: "텀블러 사용", status: "실패" },
+  { id: 3, name: "메일 삭제", status: "진행중" },
+  { id: 4, name: "걷기 챌린지", status: "성공" },
+  { id: 5, name: "플라스틱 줄이기", status: "진행중" },
+];
+
 const MyPage = () => {
   const navigate = useNavigate();
   const [popup, setPopup] = useState("");
-  const [name, setName] = useState("");
-  const [badges, setBadges] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [badgeType, setBadgeType] = useState("");
-
-  useEffect(() => {
-    const storedName = localStorage.getItem("userName");
-    if (storedName) setName(storedName);
-
-    fetchBadges();
-  }, [currentPage, badgeType]);
-
-  const fetchBadges = async () => {
-    const token = localStorage.getItem("accessToken");
-
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/badges/`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page: currentPage, size: 10, badgeType },
-      });
-
-      setBadges(response.data.badges);
-      setTotalPages(response.data.totalPages);
-    } catch (error) {
-      console.error("배지 불러오기 실패:", error);
-    }
-  };
-
-  const handleBadgeTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setBadgeType(event.target.value);
-    setCurrentPage(1);
-  };
+  const [name, setName] = useState("000");
+  const [challenges, setChallenges] = useState<Challenge[]>(mockChallenges);
+  const [filter, setFilter] = useState("전체");
 
   const handleLogout = () => {
     setPopup("logout");
@@ -65,49 +47,51 @@ const MyPage = () => {
     }, 1500);
   };
 
+  const filteredChallenges = challenges.filter((challenge) => {
+    if (filter === "전체") return true;
+    return challenge.status === filter;
+  });
+
   return (
     <div className="mypage-container">
       <img src={logo} alt="Greeners Logo" className="logo" />
-      <h2 className="title">안녕하세요!</h2>
-      <h3 className="username">{name ? `${name}님` : "회원님"}</h3>
+      <h2 className="logo-title">Greeners</h2>
+      <p className="subtitle">회원님이 참여한 챌린지</p>
 
-      <div className="badge-filter">
-        <label htmlFor="badgeType">배지 유형:</label>
-        <select
-          id="badgeType"
-          value={badgeType}
-          onChange={handleBadgeTypeChange}
-        >
-          <option value="">전체</option>
-          <option value="1">텀블러 사용</option>
-          <option value="2">메일 삭제</option>
-          <option value="3">플라스틱 줄이기</option>
-        </select>
+      <div className="filter-buttons">
+        {["전체", "진행중", "성공", "실패"].map((status) => (
+          <button
+            key={status}
+            className={`filter-button ${filter === status ? "active" : ""}`}
+            onClick={() => setFilter(status)}
+          >
+            {status}
+          </button>
+        ))}
       </div>
 
-      <div className="badgeSection">
-        <p>{name ? `${name}님이 참여한 챌린지` : "회원님이 참여한 챌린지"}</p>
-        <div className="badgeBox"></div>
-      </div>
+      <table className="challenge-table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>챌린지 이름</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredChallenges.map((challenge, index) => (
+            <tr key={challenge.id}>
+              <td>{index + 1}</td>
+              <td>{challenge.name}</td>
+              <td className={`status ${challenge.status}`}>
+                {challenge.status}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          ◀ 이전
-        </button>
-        <span>
-          {currentPage} / {totalPages}
-        </span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          다음 ▶
-        </button>
-      </div>
-
+      {/* 로그아웃 및 탈퇴 버튼 */}
       <button className="logoutButton" onClick={handleLogout}>
         로그아웃
       </button>
@@ -115,6 +99,7 @@ const MyPage = () => {
         탈퇴하기
       </button>
 
+      {/* 팝업 메시지 */}
       {popup === "confirmWithdraw" && (
         <div className="popup">
           <p>정말 탈퇴하시겠습니까?</p>
