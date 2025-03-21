@@ -39,8 +39,8 @@ const Login = () => {
         // JWT 토큰 및 사용자 정보 저장
         localStorage.setItem("accessToken", access);
         localStorage.setItem("refreshToken", refresh);
-        localStorage.setItem("userId", user.id);
-        localStorage.setItem("userName", user.username);
+        localStorage.setItem("userId", id);
+        //localStorage.setItem("userName", user.username);
 
         alert("로그인 성공!");
         navigate("/home");
