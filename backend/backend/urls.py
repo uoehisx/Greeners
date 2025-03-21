@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path('badge/', include('badge.urls')),
+    path('challenge/', include('challenge.urls')),
+    
 ]
