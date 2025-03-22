@@ -12,7 +12,7 @@ import json
 # 챌린지 상태 조회 및 필터링
 @require_http_methods(["GET"])
 def challenge_status(request):
-    challenges = Challenge.objects.filter(status='in-progress')
+    challenges = Challenge.objects.filter(status='PR')
 
     # 쿼리 파라미터 처리
     filters = {
@@ -23,26 +23,26 @@ def challenge_status(request):
         'max_participants': request.GET.get('max_participants')
     }
 
-    # 필터링 처리
-    if filters['type']:
-        challenges = challenges.filter(name__icontains=filters['type'])
+    # # 필터링 처리
+    # if filters['type']:
+    #     challenges = challenges.filter(name__icontains=filters['type'])
 
-    if filters['deadline']:
-        deadline_date = parse_datetime(filters['deadline'])
-        if deadline_date:
-            challenges = challenges.filter(end_time__lte=deadline_date)
+    # if filters['deadline']:
+    #     deadline_date = parse_datetime(filters['deadline'])
+    #     if deadline_date:
+    #         challenges = challenges.filter(end_time__lte=deadline_date)
 
-    if filters['location']:
-        challenges = challenges.filter(location__address__icontains=filters['location'])
+    # if filters['location']:
+    #     challenges = challenges.filter(location__address__icontains=filters['location'])
 
-    if filters['max_participants']:
-        challenges = challenges.filter(max_participants__lte=filters['max_participants'])
+    # if filters['max_participants']:
+    #     challenges = challenges.filter(max_participants__lte=filters['max_participants'])
 
     # 결과가 없다면 404 반환
-    if not challenges.exists():
-        return JsonResponse({
-            "message": "해당 조건에 해당하는 진행 중인 챌린지가 없습니다."
-        }, status=404)
+    # if not challenges.exists():
+    #     return JsonResponse({
+    #         "message": "해당 조건에 해당하는 진행 중인 챌린지가 없습니다."
+    #     }, status=404)
 
     # 필터링된 챌린지 리스트 반환
     data = [{
